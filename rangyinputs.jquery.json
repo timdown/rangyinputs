@@ -17,13 +17,6 @@
         "email": "rangyinputs@timdown.co.uk",
         "url": "http://timdown.co.uk/"
     },
-    "maintainers": [
-        {
-            "name": "Corey Frang",
-            "email": "gnarf37@gmail.com",
-            "url": "http://gnarf.net"
-        }
-    ],
     "licenses": [
         {
             "type": "MIT",
