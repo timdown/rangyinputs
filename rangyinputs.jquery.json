@@ -26,7 +26,7 @@
     "bugs": "https://github.com/timdown/rangyinputs/issues",
     "homepage": "https://github.com/timdown/rangyinputs",
     "docs": "https://github.com/timdown/rangyinputs",
-    "download": "http://code.jquery.com/#color",
+    "download": "https://raw.github.com/timdown/rangyinputs/master/rangyinputs-jquery.js",
     "dependencies": {
         "jquery": ">=1.0"
     }

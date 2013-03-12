@@ -144,6 +144,6 @@ Returns a reference to the original jQuery object for the element.
 
 **Example**
 
-To surround the selection with HTML <b> tags:
+To surround the selection with HTML &lt;b&gt; tags:
 
     $("#test").surroundSelectedText("<b>", "</b>");
