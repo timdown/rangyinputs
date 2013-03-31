@@ -109,10 +109,16 @@ Deletes the currently selected text within the text input or textarea element, p
     var extracted = $("#test").extractSelectedText();
     alert(extracted);
 
-`insertText(String text, Number pos, Boolean moveSelection)`
+`insertText(String text, Number pos[, String selectionBehaviour])`
 ------------------------------------------------------------
 
-Inserts the specified text at the specified character position within the text input or textarea element and optionally places the caret at the end of the inserted text if moveSelection is true.
+Inserts the specified text at the specified character position within the text input or textarea element and optionally updates the selection depending on the value of selectionBehaviour. Possible values are:
+
+* **"select"**: Selects the inserted text
+* **"collapseToStart"**: Collapses the selection to a caret at the start of the inserted text
+* **"collapseToEnd"**: Collapses the selection to a caret at the end of the inserted text 
+
+If no value is supplied for `selectionBehaviour`, the selection is not changed and left at the mercy of the browser (placing the caret at the start is not uncommon when the textarea's value is changed). 
 
 Returns a reference to the original jQuery object for the element.
 
@@ -120,12 +126,18 @@ Returns a reference to the original jQuery object for the element.
 
 To insert the word "baz" between "foo" and "bar" and place the caret immediately after "baz":
 
-    $("#test").insertText(" baz", 3, true);
+    $("#test").insertText(" baz", 3, "collapseToEnd");
 
-`replaceSelectedText(String text)`
+`replaceSelectedText(String text[, String selectionBehaviour])`
 ----------------------------------
 
-Replaces the currently selected text in the text input or textarea element with the specified text and places the caret at the end of the inserted text.
+Replaces the currently selected text in the text input or textarea element with the specified text and optionally updates the selection depending on the value of selectionBehaviour. Possible values are: 
+
+* **"select"**: Selects the inserted text
+* **"collapseToStart"**: Collapses the selection to a caret at the start of the inserted text
+* **"collapseToEnd"**: Collapses the selection to a caret at the end of the inserted text 
+
+If no value is supplied for `selectionBehaviour`, "collapseToEnd" is assumed.
 
 Returns a reference to the original jQuery object for the element.
 
@@ -135,10 +147,20 @@ To replace the selection with the word "baz" (or insert "baz" at the the caret p
 
     $("#test").replaceSelectedText("baz");
 
+To do the same thing but select "baz" afterwards:
+
+    $("#test").replaceSelectedText("baz", "select");
+
 `surroundSelectedText(String textBefore, String textAfter)`
 -----------------------------------------------------------
 
-Surrounds the currently selected text in the text input or textarea element with the specified pieces of text and moves the selection to encompass the text that was previously selected.
+Surrounds the currently selected text in the text input or textarea element with the specified pieces of text and optionally updates the selection depending on the value of `selectionBehaviour`. Possible values are:
+
+* **"select"**: Selects the text that was surrounded
+* **"collapseToStart"**: Collapses the selection to a caret at the start of the surrounded text
+* **"collapseToEnd"**: Collapses the selection to a caret at the end of the surrounded text
+
+If no value is supplied for `selectionBehaviour`, "select" is assumed.
 
 Returns a reference to the original jQuery object for the element.
 
