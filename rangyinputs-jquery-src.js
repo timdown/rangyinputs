@@ -186,9 +186,22 @@
 
         var updateSelectionAfterInsert = function(el, startIndex, text, selectionBehaviour) {
             var endIndex = startIndex + text.length;
-
+            
             selectionBehaviour = (typeof selectionBehaviour == "string") ?
                 selectionBehaviour.toLowerCase() : "";
+
+            if ((selectionBehaviour == "collapsetoend" || selectionBehaviour == "select") && /[\r\n]/.test(text)) {
+                // Find the length of the actual text inserted, which could vary
+                // depending on how the browser deals with line breaks
+                var normalizedText = text.replace(/\r\n/g, "\n").replace(/\r/g, "\n");
+                endIndex = startIndex + normalizedText.length;
+                var firstLineBreakIndex = startIndex + normalizedText.indexOf("\n");
+                
+                if (el.value.slice(firstLineBreakIndex, firstLineBreakIndex + 2) == "\r\n") {
+                    // Browser uses \r\n, so we need to account for extra \r characters
+                    endIndex += normalizedText.match(/\n/g).length;
+                }
+            }
 
             switch (selectionBehaviour) {
                 case "collapsetostart":
