@@ -11,7 +11,7 @@
  *
  * Copyright 2013, Tim Down
  * Licensed under the MIT license.
- * Version: 1.1
+ * Version: 1.1.1
  * Build date: 31 March 2013
  */
 (function($) {
@@ -91,7 +91,7 @@
                 }
             };
         } else if (isHostMethod(testTextArea, "createTextRange") && isHostObject(document, "selection") &&
-            isHostMethod(document.selection, "createRange")) {
+                   isHostMethod(document.selection, "createRange")) {
 
             getSelection = function(el) {
                 var start = 0, end = 0, normalizedValue, textInputRange, len, endRange;
