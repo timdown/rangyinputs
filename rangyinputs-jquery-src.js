@@ -11,7 +11,7 @@
  *
  * Copyright 2013, Tim Down
  * Licensed under the MIT license.
- * Version: 1.1.1
+ * Version: 1.1.2
  * Build date: 31 March 2013
  */
 (function($) {
