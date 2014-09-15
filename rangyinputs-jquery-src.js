@@ -11,8 +11,8 @@
  *
  * Copyright 2014, Tim Down
  * Licensed under the MIT license.
- * Version: 1.1.3
- * Build date: 19 August 2014
+ * Version: 1.1.4
+ * Build date: 15 September 2014
  */
 (function($) {
     var UNDEF = "undefined";

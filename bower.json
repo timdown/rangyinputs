@@ -1,0 +1,27 @@
+{
+    "name": "rangyinputs",
+    "version": "1.1.4",
+    "homepage": "https://github.com/timdown/rangyinputs",
+    "authors": [
+        "Tim Down <tim@timdown.co.uk>"
+    ],
+    "description": "A small jQuery plug-in for selection and caret manipulation within textareas and text inputs.",
+    "main": [
+        "rangyinputs-jquery.js"
+    ],
+    "moduleType": [
+        "globals"
+    ],
+    "keywords": [
+        "input",
+        "selection",
+        "caret",
+        "textarea"
+    ],
+    "license": "MIT",
+    "ignore": [
+        ".idea",
+        ".gitignore",
+        "rangyinputs.jquery.json"
+    ]
+}
