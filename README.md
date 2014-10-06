@@ -3,10 +3,10 @@ Rangy Inputs
 
 A small jQuery plug-in for selection and caret manipulation within textareas and text inputs.
 
-Install
--------
+Bower Install
+-------------
 
-You can [bower install](http://bower.io/) by simply by using `bower install rangyinputs --save`
+[Bower](http://bower.io/) users can install by running `bower install rangyinputs --save`
 
 
 Example
