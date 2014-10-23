@@ -149,7 +149,7 @@ To do the same thing but select "baz" afterwards:
 
     $("#test").replaceSelectedText("baz", "select");
 
-###`surroundSelectedText(String textBefore, String textAfter)`
+###`surroundSelectedText(String textBefore, String textAfter[, String selectionBehaviour])`
 
 Surrounds the currently selected text in the text input or textarea element with the specified pieces of text and optionally updates the selection depending on the value of `selectionBehaviour`. Possible values are:
 
