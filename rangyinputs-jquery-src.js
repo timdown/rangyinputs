@@ -158,30 +158,74 @@
         // Clean up
         getBody().removeChild(testTextArea);
 
+        function getValueAfterPaste(el, text) {
+            var val = el.value, sel = getSelection(el), selStart = sel.start;
+            return {
+                value: val.slice(0, selStart) + text + val.slice(sel.end),
+                index: selStart,
+                replaced: sel.text
+            };
+        }
+        
+        function pasteTextWithCommand(el, text) {
+            el.focus();
+            var sel = getSelection(el);
+
+            // Hack to work around incorrect delete command when deleting the last word on a line
+            setSelection(el, sel.start, sel.end);
+            if (text == "") {
+                document.execCommand("delete", false, null);
+            } else {
+                document.execCommand("insertText", false, text);
+            }
+
+            return {
+                replaced: sel.text,
+                index: sel.start
+            };
+        }
+
+        function pasteTextWithValueChange(el, text) {
+            el.focus();
+            var valueAfterPaste = getValueAfterPaste(el, text);
+            el.value = valueAfterPaste.value;
+            return valueAfterPaste;
+        }
+
+        var pasteText = function(el, text) {
+            var valueAfterPaste = getValueAfterPaste(el, text);
+            try {
+                var pasteInfo = pasteTextWithCommand(el, text);
+                if (el.value == valueAfterPaste.value) {
+                    pasteText = pasteTextWithCommand;
+                    return pasteInfo;
+                }
+            } catch (ex) {
+                // Do nothing and fall back to changing the value manually
+            }
+            pasteText = pasteTextWithValueChange;
+            el.value = valueAfterPaste.value;
+            return valueAfterPaste;
+        };
+
         deleteText = function(el, start, end, moveSelection) {
-            var val;
             if (start != end) {
-                val = el.value;
-                el.value = val.slice(0, start) + val.slice(end);
+                setSelection(el, start, end);
+                pasteText(el, "");
             }
             if (moveSelection) {
-                setSelection(el, start, start);
+                setSelection(el, start);
             }
         };
 
         deleteSelectedText = function(el) {
-            var sel = getSelection(el);
-            deleteText(el, sel.start, sel.end, true);
+            setSelection(el, pasteText(el, "").index);
         };
 
         extractSelectedText = function(el) {
-            var sel = getSelection(el), val;
-            if (sel.start != sel.end) {
-                val = el.value;
-                el.value = val.slice(0, sel.start) + val.slice(sel.end);
-            }
-            setSelection(el, sel.start, sel.start);
-            return sel.text;
+            var pasteInfo = pasteText(el, "");
+            setSelection(el, pasteInfo.index);
+            return pasteInfo.replaced;
         };
 
         var updateSelectionAfterInsert = function(el, startIndex, text, selectionBehaviour) {
@@ -217,8 +261,8 @@
         };
 
         insertText = function(el, text, index, selectionBehaviour) {
-            var val = el.value;
-            el.value = val.slice(0, index) + text + val.slice(index);
+            setSelection(el, index);
+            pasteText(el, text);
             if (typeof selectionBehaviour == "boolean") {
                 selectionBehaviour = selectionBehaviour ? "collapseToEnd" : "";
             }
@@ -226,19 +270,17 @@
         };
 
         replaceSelectedText = function(el, text, selectionBehaviour) {
-            var sel = getSelection(el), val = el.value;
-            el.value = val.slice(0, sel.start) + text + val.slice(sel.end);
-            updateSelectionAfterInsert(el, sel.start, text, selectionBehaviour || "collapseToEnd");
+            var pasteInfo = pasteText(el, text);
+            updateSelectionAfterInsert(el, pasteInfo.index, text, selectionBehaviour || "collapseToEnd");
         };
 
         surroundSelectedText = function(el, before, after, selectionBehaviour) {
             if (typeof after == UNDEF) {
                 after = before;
             }
-            var sel = getSelection(el), val = el.value;
-            el.value = val.slice(0, sel.start) + before + sel.text + after + val.slice(sel.end);
-            var startIndex = sel.start + before.length;
-            updateSelectionAfterInsert(el, startIndex, sel.text, selectionBehaviour || "select");
+            var sel = getSelection(el);
+            var pasteInfo = pasteText(el, before + sel.text + after);
+            updateSelectionAfterInsert(el, pasteInfo.index + before.length, sel.text, selectionBehaviour || "select");
         };
 
         function jQuerify(func, returnThis) {
