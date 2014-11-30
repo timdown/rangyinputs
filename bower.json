@@ -1,6 +1,6 @@
 {
     "name": "rangyinputs",
-    "version": "1.1.4",
+    "version": "1.2",
     "homepage": "https://github.com/timdown/rangyinputs",
     "authors": [
         "Tim Down <tim@timdown.co.uk>"
@@ -22,6 +22,7 @@
     "ignore": [
         ".idea",
         ".gitignore",
-        "rangyinputs.jquery.json"
+        "rangyinputs.jquery.json",
+        "bower.json"
     ]
 }
