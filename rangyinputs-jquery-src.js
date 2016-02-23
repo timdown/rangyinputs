@@ -314,23 +314,31 @@
             };
         }
 
-        var rangyMethods = {
-            getSelection: jQuerify(getSelection, false),
-            setSelection: jQuerify(setSelection, true),
-            collapseSelection: jQuerify(collapseSelection, true),
-            deleteSelectedText: jQuerify(deleteSelectedText, true),
-            deleteText: jQuerify(deleteText, true),
-            extractSelectedText: jQuerify(extractSelectedText, false),
-            insertText: jQuerify(insertText, true),
-            replaceSelectedText: jQuerify(replaceSelectedText, true),
-            surroundSelectedText: jQuerify(surroundSelectedText, true)
-        };
-
         if (isPlainJsMode) {
-            window.RangyInputs = rangyMethods;
+            window.RangyInputs = {
+                getSelection: getSelection,
+                setSelection: setSelection,
+                collapseSelection: collapseSelection,
+                deleteSelectedText: deleteSelectedText,
+                deleteText: deleteText,
+                extractSelectedText: extractSelectedText,
+                insertText: insertText,
+                replaceSelectedText: replaceSelectedText,
+                surroundSelectedText: surroundSelectedText
+            };
         }
         else {
-            $.fn.extend(rangyMethods);
+            $.fn.extend({
+                getSelection: jQuerify(getSelection, false),
+                setSelection: jQuerify(setSelection, true),
+                collapseSelection: jQuerify(collapseSelection, true),
+                deleteSelectedText: jQuerify(deleteSelectedText, true),
+                deleteText: jQuerify(deleteText, true),
+                extractSelectedText: jQuerify(extractSelectedText, false),
+                insertText: jQuerify(insertText, true),
+                replaceSelectedText: jQuerify(replaceSelectedText, true),
+                surroundSelectedText: jQuerify(surroundSelectedText, true)
+            });
         }
     });
 })(window.jQuery);

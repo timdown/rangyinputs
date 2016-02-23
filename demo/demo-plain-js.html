@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Rangyinputs plain JS plugin demo</title>
+    <link href="demo.css" rel="stylesheet" type="text/css">
+    <script type="text/javascript" src="../rangyinputs-jquery-src.js"></script>
+    <style type="text/css">
+        p.inputcontainer {
+            float: left;
+            background-color: lightsteelblue;
+            border: solid 1px darkblue;
+            padding: 0.3125em;
+        }
+    </style>
+    <script>
+        var bindLoadEvent = function (handler) {
+            if (document.addEventListener) {
+                document.addEventListener('DOMContentLoaded', handler);
+            }
+            else {
+                document.attachEvent('onload', handler, false);
+            }
+        }
+
+        var bindEvent = function (el, eventName, handler) {
+            if (el.addEventListener) {
+                el.addEventListener(eventName, handler);
+            }
+            else {
+                el.attachEvent('on' + eventName, handler, false);
+            }
+        }
+
+        bindLoadEvent(function() {
+            var ta = document.getElementById("ta");
+            var startIndex = document.getElementById("startIndex");
+            var endIndex = document.getElementById("endIndex");
+
+            function reportSelection() {
+                var sel = RangyInputs.getSelection(ta);
+                startIndex.innerText = sel.start;
+                endIndex.innerText = sel.end;
+            }
+
+            bindEvent(document, "selectionchange", reportSelection);
+            bindEvent(ta, "keyup", reportSelection);
+            bindEvent(ta, "input", reportSelection);
+            bindEvent(ta, "mouseup", reportSelection);
+            bindEvent(ta, "textInput", reportSelection);
+
+            ta.focus();
+
+            reportSelection();
+
+            var mouseDownHandler = function(e) {
+                e.preventDefault();
+
+                switch (this.name) {
+                    case "replaceSelectedTextAndCollapse":
+                        RangyInputs.replaceSelectedText(ta, "**Test**", "collapseToEnd");
+                        break;
+                    case "replaceSelectedTextAndSelect":
+                        RangyInputs.replaceSelectedText(ta, "**Test**", "select");
+                        break;
+                    case "deleteText":
+                        RangyInputs.deleteText(ta, +document.getElementById('ta_start').value, +document.getElementById('ta_end').value);
+                        break;
+                    case "deleteSelectedText":
+                        RangyInputs.deleteSelectedText(ta);
+                        break;
+                    case "extractSelectedText":
+                        alert(RangyInputs.extractSelectedText(ta));
+                        break;
+                    case "surroundSelectedText":
+                        RangyInputs.surroundSelectedText(ta, "[Before]", "[After]");
+                        break;
+                    case "collapseToStart":
+                        RangyInputs.collapseSelection(ta, true);
+                        break;
+                    case "collapseToEnd":
+                        RangyInputs.collapseSelection(ta, false);
+                        break;
+                    case "setSelection":
+                        RangyInputs.setSelection(ta, +document.getElementById('ta_start').value, +document.getElementById('ta_end').value);
+                        break;
+                }
+                ta.focus();
+
+                // For IE, which always shifts the focus onto the button
+                window.setTimeout(function() {
+                    ta.focus();
+                }, 0);
+            };
+
+            var inputNodes = document.getElementsByTagName("input");
+            for(var idx = 0; idx < inputNodes.length; idx++) {
+                bindEvent(inputNodes[idx], 'mousedown', mouseDownHandler);
+            }
+        });
+    </script>
+</head>
+<body>
+<h1>Rangyinputs plain JS plugin Demo</h1>
+
+<br><br>
+
+<p class="inputcontainer">
+    <input type="button" class="unselectable" unselectable="on" name="replaceSelectedTextAndCollapse" value="paste test text">
+    <input type="button" class="unselectable" unselectable="on" name="replaceSelectedTextAndSelect" value="paste test text and select">
+    <input type="button" class="unselectable" unselectable="on" name="deleteText" value="delete text">
+    <input type="button" class="unselectable" unselectable="on" name="deleteSelectedText" value="delete selected text">
+    <br>
+    <input type="button" class="unselectable" unselectable="on" name="extractSelectedText" value="extract selected text">
+    <input type="button" class="unselectable" unselectable="on" name="surroundSelectedText" value="surround selected text">
+    <input type="button" class="unselectable" unselectable="on" name="collapseToStart" value="collapse to start">
+    <input type="button" class="unselectable" unselectable="on" name="collapseToEnd" value="collapse to end">
+    <br>
+    Select/delete text from <input type="text" id="ta_start" size="3" value="5"> to
+    <input type="text" id="ta_end" size="3" value="7">
+    <input type="button" class="unselectable" unselectable="on" name="setSelection" value="set selection">
+
+    <br>
+    Selection: <b id="startIndex"></b> to <b id="endIndex"></b>
+    <br>
+    <textarea rows="15" cols="80" id="ta">Some test text
+        That has
+
+        Some line breaks, including some trailing ones
+
+
+    </textarea>
+</p>
+</body>
+</html>
