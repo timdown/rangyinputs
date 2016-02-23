@@ -18,6 +18,7 @@
     var UNDEF = "undefined";
     var getSelection, setSelection, deleteSelectedText, deleteText, insertText;
     var replaceSelectedText, surroundSelectedText, extractSelectedText, collapseSelection;
+    var isPlainJsMode = $ === undefined;
 
     // Trio of isHost* functions taken from Peter Michaux's article:
     // http://peter.michaux.ca/articles/feature-detection-state-of-the-art-browser-scripting
@@ -66,7 +67,18 @@
         return isHostObject(document, "body") ? document.body : document.getElementsByTagName("body")[0];
     }
 
-    $(document).ready(function() {
+    var bindDocumentLoadedEvent = isPlainJsMode
+        ? function (handler) {
+            if (document.addEventListener) {
+                document.addEventListener('DOMContentLoaded', handler);
+            }
+            else {
+                document.attachEvent('onload', handler, false);
+            }
+        }
+        : $(document).ready;
+
+    bindDocumentLoadedEvent(function() {
         var testTextArea = document.createElement("textarea");
 
         getBody().appendChild(testTextArea);
@@ -302,7 +314,7 @@
             };
         }
 
-        $.fn.extend({
+        var rangyMethods = {
             getSelection: jQuerify(getSelection, false),
             setSelection: jQuerify(setSelection, true),
             collapseSelection: jQuerify(collapseSelection, true),
@@ -312,6 +324,13 @@
             insertText: jQuerify(insertText, true),
             replaceSelectedText: jQuerify(replaceSelectedText, true),
             surroundSelectedText: jQuerify(surroundSelectedText, true)
-        });
+        };
+
+        if (isPlainJsMode) {
+            window.RangyInputs = rangyMethods;
+        }
+        else {
+            $.fn.extend(rangyMethods);
+        }
     });
-})(jQuery);
+})(window.jQuery);
