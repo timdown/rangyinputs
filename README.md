@@ -80,7 +80,7 @@ To place the caret before "bar":
 
 ---
     
-`collapseSelection(Boolean toStart)`
+#### `collapseSelection(Boolean toStart)`
 
 Collapses the selection to an insertion point (caret) either at the start of the current selection if toStart is true or the end of the current selection otherwise.
 
