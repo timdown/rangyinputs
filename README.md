@@ -82,7 +82,7 @@ To place the caret before "bar":
     
 #### `collapseSelection(Boolean toStart)`
 
-Collapses the selection to an insertion point (caret) either at the start of the current selection if toStart is true or the end of the current selection otherwise.
+Collapses the selection to an insertion point (caret) either at the start of the current selection if `toStart` is true or the end of the current selection otherwise.
 
 Returns a reference to the original jQuery object for the element.
 
@@ -96,7 +96,7 @@ To collapse the selection to the start:
 
 #### `deleteText(Number start, Number end, Boolean moveSelection)`
 
-Deletes the text within the text input or textarea element between the specified start and end character indices and optionally places the caret at the position where the deleted text had been if moveSelection is true.
+Deletes the text within the text input or textarea element between the specified start and end character indices and optionally places the caret at the position where the deleted text had been if `moveSelection` is `true`.
 
 Returns a reference to the original jQuery object for the element.
 
@@ -163,7 +163,7 @@ If no value is supplied for `selectionBehaviour`, "collapseToEnd" is assumed.
 
 Returns a reference to the original jQuery object for the element.
 
-**Example**
+**Examples**
 
 To replace the selection with the word "baz" (or insert "baz" at the the caret position if no text is selected):
 
