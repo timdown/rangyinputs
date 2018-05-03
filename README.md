@@ -24,7 +24,7 @@ Imagine a simple textarea such as:
 You can get the user's selection using
 
     var sel = $("#test").getSelection();
-    alert(sel.start + ", " + sel.end);
+    console.log(sel.start + ", " + sel.end);
 
 To select the word "bar":
 
@@ -37,11 +37,13 @@ API
 
 Rangy Inputs provides the following extensions to all jQuery objects wrapping a single text input or textarea.
 
-Note that in IE, the element must have the focus for any of the following methods to work, which can be achieved by calling its focus() method before calling the method.
+**Focus**
+
+In Internet Explorer, the element must have the focus for any of the following methods to work, which can be achieved by calling its `focus()` method of the element (or its jQuery object) before calling the method.
 
 ---
 
-####`getSelection()`
+#### `getSelection()`
 
 Returns an object representing the user selection within the text input or textarea element.
 
@@ -52,8 +54,6 @@ The object returned has the following properties:
 * `length`: The number of characters selected
 * `text`: The selected text
 
-Note that in IE the textarea or text input must have the focus before calling this method. You can ensure this by calling the focus() method of the element (or its jQuery object).
-
 **Example**
 
     $("#test").focus();
@@ -62,21 +62,25 @@ Note that in IE the textarea or text input must have the focus before calling th
 
 ---
 
-####`setSelection(Number start[, Number end])`
+#### `setSelection(Number start[, Number end])`
 
-Selects the text within the text input or textarea element between the specified start and end character indices.
+Selects the text within the text input or textarea element between the specified start and end character indices. If `end` is omitted, the selection is removed and the caret is placed at character index `start`.
 
 Returns a reference to the original jQuery object for the element.
 
-**Example**
+**Examples**
 
 To select the word "bar":
 
     $("#test").setSelection(4, 7);
-    
+
+To place the caret before "bar":
+
+    $("#test").setSelection(4);
+
 ---
     
-####`collapseSelection(Boolean toStart)`
+`collapseSelection(Boolean toStart)`
 
 Collapses the selection to an insertion point (caret) either at the start of the current selection if toStart is true or the end of the current selection otherwise.
 
@@ -90,7 +94,7 @@ To collapse the selection to the start:
 
 ---
 
-####`deleteText(Number start, Number end, Boolean moveSelection)`
+#### `deleteText(Number start, Number end, Boolean moveSelection)`
 
 Deletes the text within the text input or textarea element between the specified start and end character indices and optionally places the caret at the position where the deleted text had been if moveSelection is true.
 
@@ -104,7 +108,7 @@ To delete the word "foo" from the example and place the caret where "foo" had be
 
 ---
 
-####`deleteSelectedText()`
+#### `deleteSelectedText()`
 
 Deletes the currently selected text within the text input or textarea element and places the caret at the position where the deleted text had been.
 
@@ -116,20 +120,20 @@ Returns a reference to the original jQuery object for the element.
 
 ---
 
-####`extractSelectedText()`
+#### `extractSelectedText()`
 
 Deletes the currently selected text within the text input or textarea element, places the caret at the position where the deleted text had been and returns the text that was deleted.
 
 **Example**
 
     var extracted = $("#test").extractSelectedText();
-    alert(extracted);
+    console.log(extracted);
 
 ---
 
-####`insertText(String text, Number pos[, String selectionBehaviour])`
+#### `insertText(String text, Number pos[, String selectionBehaviour])`
 
-Inserts the specified text at the specified character position within the text input or textarea element and optionally updates the selection depending on the value of selectionBehaviour. Possible values are:
+Inserts the specified text at the specified character position within the text input or textarea element and optionally updates the selection depending on the value of `selectionBehaviour`. Possible values are:
 
 * **"select"**: Selects the inserted text
 * **"collapseToStart"**: Collapses the selection to a caret at the start of the inserted text
@@ -147,9 +151,9 @@ To insert the word "baz" between "foo" and "bar" and place the caret immediately
 
 ---
 
-####`replaceSelectedText(String text[, String selectionBehaviour])`
+#### `replaceSelectedText(String text[, String selectionBehaviour])`
 
-Replaces the currently selected text in the text input or textarea element with the specified text and optionally updates the selection depending on the value of selectionBehaviour. Possible values are: 
+Replaces the currently selected text in the text input or textarea element with the specified text and optionally updates the selection depending on the value of `selectionBehaviour`. Possible values are: 
 
 * **"select"**: Selects the inserted text
 * **"collapseToStart"**: Collapses the selection to a caret at the start of the inserted text
@@ -171,7 +175,7 @@ To do the same thing but select "baz" afterwards:
 
 ---
 
-####`surroundSelectedText(String textBefore, String textAfter[, String selectionBehaviour])`
+#### `surroundSelectedText(String textBefore, String textAfter[, String selectionBehaviour])`
 
 Surrounds the currently selected text in the text input or textarea element with the specified pieces of text and optionally updates the selection depending on the value of `selectionBehaviour`. Possible values are:
 
